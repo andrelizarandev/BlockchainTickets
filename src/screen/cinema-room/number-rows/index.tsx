@@ -17,7 +17,7 @@ export default function NumberRows () {
   return (
     <Grid md={1}>
       <Stack rowGap={6.8} sx={{ alignItems:'center', paddingTop:16 }}>
-        {data.map((number) => LetterChip(number))}
+        {data.map((number, key) => LetterChip(number))}
       </Stack>
     </Grid>
   )

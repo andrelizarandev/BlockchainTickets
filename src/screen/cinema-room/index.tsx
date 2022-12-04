@@ -1,6 +1,8 @@
 // Modules
-import { useState, createContext } from 'react';
+import Web3 from 'web3';
+import { Contract } from 'web3-eth-contract';
 import { Stack, Button, Grid } from '@mui/material';
+import { useState, createContext, useEffect } from 'react';
 
 // Components
 import SeatsRoom from './seats-room';
@@ -34,6 +36,7 @@ export default function CinemaRoomScreen () {
 
   const [ whichDialogIsOpen, setWhichDialogIsOpen ] = useState<DialogOptions>(null);
   const [ selectedSeat, setSelectedSeat ] = useState<SeatData | null>(null);
+  const [ contractInstance, setContractInstance ] = useState<any>(null);
 
   const openAddTicketDialog = () => setWhichDialogIsOpen('add-ticket');
   const openGetTicketDialog = () => setWhichDialogIsOpen('get-ticket');
@@ -44,6 +47,7 @@ export default function CinemaRoomScreen () {
   const closeAnyDialogAndCleanSelectedSeat = () => { closeAnyDialog(); setSelectedSeat(null) }
 
   const payload:CinemaRoomScreenContextPayload = {
+    isEthereumLoaded:true,
     whichDialogIsOpen,
     openAddTicketDialog,
     openShowTicketSeatDialog,
@@ -52,8 +56,31 @@ export default function CinemaRoomScreen () {
     closeAnyDialog,
     selectedSeat,
     setSelectedSeat,
-    closeAnyDialogAndCleanSelectedSeat
+    closeAnyDialogAndCleanSelectedSeat,
+    contractInstance
   }
+
+  async function getContractInstance () {
+    // @ts-ignore
+    const web3 = new Web3(window.ethereum);
+    const accounts = await web3.eth.getAccounts();
+    const res = await fetch("public/SeatContract.json");
+    const seatContractJson = await res.json();
+    const deployedNetwork = seatContractJson.networks[5777]
+    const abi = seatContractJson.abi;
+    const instance = new web3.eth.Contract(abi, deployedNetwork && deployedNetwork.address);
+    const seats = await instance.methods.getFirstSeat().call();
+    console.log(seats);
+  }
+
+  async function getSeats () {
+    const seats = await contractInstance.methods.getFirstSeat().call();
+    console.log(seats);
+  }
+
+  useEffect(() => {
+    getContractInstance();
+  }, []);
 
   function OptionContainer () {
     return (

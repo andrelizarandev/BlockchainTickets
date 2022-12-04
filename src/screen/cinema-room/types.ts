@@ -5,6 +5,7 @@ export type SeatData = {
 }
 
 export type CinemaRoomScreenContextPayload = {
+  isEthereumLoaded:boolean;
   whichDialogIsOpen: DialogOptions;
   openAddTicketDialog (): void;
   openShowTicketSeatDialog (): void;
@@ -14,6 +15,7 @@ export type CinemaRoomScreenContextPayload = {
   selectedSeat: SeatData | null;
   setSelectedSeat: React.Dispatch<React.SetStateAction<SeatData | null>>
   closeAnyDialogAndCleanSelectedSeat (): void;
+  contractInstance:any;
 }
 
 export type DialogOptions = 'add-ticket' | 'get-ticket' | 'show-ticket-seat' | 'remove-ticket' | 'clean-room' | null; 
