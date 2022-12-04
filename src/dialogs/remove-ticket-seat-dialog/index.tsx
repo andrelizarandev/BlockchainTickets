@@ -12,22 +12,21 @@ import {
 import { useContext } from 'react';
 
 // Context
-import { CinemaRoomScreenContext } from '../../screen/cinema-room';
+import { SeatsContext } from '../../contexts/seats-context';
+import { DialogsContext } from '../../contexts/dialogs-context';
+import { ContractContext } from '../../contexts/contract-context';
 
 // Hooks
 import useHandleSeats from '../../hooks/use-handle-seats';
 
 // Style
 import FlexStyle from '../../style/flex';
-import { DialogsContext } from '../../contexts/dialogs-context';
 
 export default function RemoveTicketSeatDialog () {
 
-  const { 
-    selectedSeat,
-    contractInstance,
-    account
-  } = useContext(CinemaRoomScreenContext);
+  const { selectedSeat } = useContext(SeatsContext);
+
+  const { contractInstance, account } = useContext(ContractContext);
 
   const {
     closeAnyDialog,

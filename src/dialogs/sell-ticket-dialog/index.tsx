@@ -9,6 +9,11 @@ import {
   TextField 
 } from '@mui/material';
 import { useContext } from 'react';
+import { ContractContext } from '../../contexts/contract-context';
+
+// Contexts
+import { DialogsContext } from '../../contexts/dialogs-context';
+import { SeatsContext } from '../../contexts/seats-context';
 
 // Hooks
 import useHandleSeats from '../../hooks/use-handle-seats';
@@ -17,16 +22,11 @@ import useHandleSeats from '../../hooks/use-handle-seats';
 import FlexStyle from '../../style/flex';
 
 // Types
-import { CinemaRoomScreenContext } from '../../screen/cinema-room';
-import { DialogsContext } from '../../contexts/dialogs-context';
 
 export default function SellTicketsDialog () {
   
-  const { 
-    selectedSeat,
-    contractInstance,
-    account
-  } = useContext(CinemaRoomScreenContext);
+  const { selectedSeat } = useContext(SeatsContext);
+  const { contractInstance, account } = useContext(ContractContext);
 
   const {
     closeAnyDialog,

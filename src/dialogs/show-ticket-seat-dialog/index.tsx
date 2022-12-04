@@ -10,8 +10,8 @@ import {
   TextField 
 } from '@mui/material';
 
-// Types
-import { CinemaRoomScreenContext } from '../../screen/cinema-room';
+// Context
+import { DialogsContext } from '../../contexts/dialogs-context';
 
 // Style
 import FlexStyle from '../../style/flex'
@@ -21,7 +21,7 @@ export default function ShowTicketSeatDialog () {
   const { 
     closeAnyDialog, 
     whichDialogIsOpen 
-  } = useContext(CinemaRoomScreenContext);
+  } = useContext(DialogsContext);
 
   return (
     <Dialog open={whichDialogIsOpen === 'show-ticket-seat'} onClose={closeAnyDialog} fullWidth={true} maxWidth='sm'>

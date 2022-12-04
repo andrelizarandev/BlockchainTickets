@@ -3,22 +3,20 @@ import { useContext } from 'react';
 import { Stack, Grid, Tooltip } from '@mui/material';
 
 // Context
-import { CinemaRoomScreenContext } from '../../screen/cinema-room';
+import { SeatsContext } from '../../contexts/seats-context';
+import { DialogsContext } from '../../contexts/dialogs-context';
 
 // Style
 import SeatElementStyle from './style'
 
 // Types
-import { SeatData } from '../../screen/cinema-room/types';
-import { DialogsContext } from '../../contexts/dialogs-context';
+import { SeatData } from '../../contexts/seats-context/types';
 
 export default function SeatElement (props:SeatData) {
 
   const { column, row, inUse } = props;
   
-  const {  
-    setSelectedSeat,
-  } = useContext(CinemaRoomScreenContext);
+  const {  setSelectedSeat } = useContext(SeatsContext);
 
   const {
     openAddTicketDialog,

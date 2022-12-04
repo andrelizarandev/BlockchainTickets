@@ -9,11 +9,10 @@ import {
   Stack
 } from '@mui/material';
 import { useContext } from 'react';
-import { DialogsContext } from '../../contexts/dialogs-context';
-import { UiContext } from '../../contexts/ui-context';
 
 // Context
-import { CinemaRoomScreenContext } from '../../screen/cinema-room';
+import { UiContext } from '../../contexts/ui-context';
+import { DialogsContext } from '../../contexts/dialogs-context';
 
 export default function MessageDialog () {
 

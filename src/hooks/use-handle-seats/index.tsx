@@ -1,14 +1,14 @@
 // Modules
 import { useContext } from 'react';
-import { DialogsContext } from '../../contexts/dialogs-context';
-import { UiContext } from '../../contexts/ui-context';
 
 // Contexts
-import { CinemaRoomScreenContext } from '../../screen/cinema-room';
+import { UiContext } from '../../contexts/ui-context';
+import { SeatsContext } from '../../contexts/seats-context';
+import { DialogsContext } from '../../contexts/dialogs-context';
 
 export default function useHandleSeats () {
   
-  const { seats, setSeats } = useContext(CinemaRoomScreenContext);
+  const { seats, setSeats } = useContext(SeatsContext);
   const { setMessage } = useContext(UiContext);
   const { openMessageDialog } = useContext(DialogsContext);
 

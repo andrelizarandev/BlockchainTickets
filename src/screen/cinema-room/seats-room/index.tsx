@@ -2,16 +2,22 @@
 import { useContext } from 'react';
 import { Stack, Grid } from '@mui/material';
 
+// Components
+import SeatElement from '../../../components/seat-element';
+
 // Contexts
-import { CinemaRoomScreenContext } from '..';
+import { SeatsContext } from '../../../contexts/seats-context';
+
+// Hooks
+import useHandleContract from '../../../hooks/use-handle-contract';
 
 // Style
 import SeatsRoomStyle from "./style";
-import SeatElement from '../../../components/seat-element';
 
 export default function SeatsRoom () {
 
-  const { seats } = useContext(CinemaRoomScreenContext);
+  const { seats } = useContext(SeatsContext);
+  useHandleContract();
 
   return (
     <Stack sx={SeatsRoomStyle.MainContainerContainer}>
