@@ -1,19 +1,18 @@
 // Modules
 import { useContext } from 'react';
-import { Stack, Button, CircularProgress } from '@mui/material';
+import { Stack, Button } from '@mui/material';
 
 // Components
-import SeatsRoom from './seats-room';
-import LetterColumns from './letter-columns';
 import Header from '../../components/header';
 import ColorsRow from '../../components/colors-row';
 
 // Context Containers
-import UiContextContainer, { UiContext } from '../../contexts/ui-context';
+import UiContextContainer from '../../contexts/ui-context';
 import DialogsContextContainer, { DialogsContext } from '../../contexts/dialogs-context';
 
 // Dialogs 
 import MessageDialog from '../../dialogs/message-dialog';
+import InformationContainer from './information-container';
 import GetTicketDialog from '../../dialogs/get-ticket-dialog';
 import CleanRoomDialog from '../../dialogs/clean-room-dialog';
 import SellTicketsDialog from '../../dialogs/sell-ticket-dialog';
@@ -31,6 +30,7 @@ import FlexStyle from '../../style/flex';
 // Types
 import SeatsContextContainer from '../../contexts/seats-context';
 import ContractContextContainer from '../../contexts/contract-context';
+import NoEthereumDialog from '../../dialogs/no-ethereum-dialog';
 
 export default function CinemaRoomScreen () {
 
@@ -67,26 +67,18 @@ export default function CinemaRoomScreen () {
                   <ColorsRow/>
                 </Stack>
               </Stack>
+
               <SellTicketsDialog/>
               <GetTicketDialog/>
               <ShowTicketSeatDialog/>
               <RemoveTicketSeatDialog/>
               <CleanRoomDialog/>
               <MessageDialog/>
+              <NoEthereumDialog/>
         
             </DialogsContextContainer>
         </SeatsContextContainer>
       </ContractContextContainer>
     </UiContextContainer> 
-  )
-}
-
-
-function InformationContainer () {
-  return (
-    <Stack rowGap={2}>
-      <LetterColumns/>
-      <SeatsRoom/>
-    </Stack>
   )
 }

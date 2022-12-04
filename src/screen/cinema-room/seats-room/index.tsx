@@ -13,11 +13,11 @@ import useHandleContract from '../../../hooks/use-handle-contract';
 
 // Style
 import SeatsRoomStyle from "./style";
+import { UiContext } from '../../../contexts/ui-context';
 
 export default function SeatsRoom () {
 
   const { seats } = useContext(SeatsContext);
-  useHandleContract();
 
   return (
     <Stack sx={SeatsRoomStyle.MainContainerContainer}>

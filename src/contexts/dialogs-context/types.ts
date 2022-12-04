@@ -6,7 +6,8 @@ export type DialogsContextPayload = {
   openAddTicketDialog (): void;
   openShowTicketSeatDialog (): void;
   openRemoveTicketSeatDialog (): void;
+  openNoEthereumDialog (): void;
   closeAnyDialog (): void;
 }
 
-export type DialogOptions = 'add-ticket' | 'get-ticket' | 'show-ticket-seat' | 'remove-ticket' | 'clean-room' | 'message' | null; 
+export type DialogOptions = 'add-ticket' | 'get-ticket' | 'show-ticket-seat' | 'remove-ticket' | 'clean-room' | 'message' | 'no-ethereum' | null; 

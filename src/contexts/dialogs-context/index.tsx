@@ -15,7 +15,8 @@ export default function DialogsContextContainer ({ children }:any) {
   const openShowTicketSeatDialog = () => setWhichDialogIsOpen('show-ticket-seat');
   const openRemoveTicketSeatDialog = () => setWhichDialogIsOpen('remove-ticket');
   const openCleanRoomDialog = () => setWhichDialogIsOpen('clean-room');
-  const openMessageDialog = () => { setWhichDialogIsOpen('message');}
+  const openMessageDialog = () => setWhichDialogIsOpen('message');
+  const openNoEthereumDialog = () => setWhichDialogIsOpen('no-ethereum');
   const closeAnyDialog = () => setWhichDialogIsOpen(null);
 
   const payload:DialogsContextPayload = {
@@ -26,6 +27,7 @@ export default function DialogsContextContainer ({ children }:any) {
     openRemoveTicketSeatDialog,
     openCleanRoomDialog,
     openMessageDialog,
+    openNoEthereumDialog,
     closeAnyDialog
   }
 

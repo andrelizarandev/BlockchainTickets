@@ -9,12 +9,14 @@ import { ContractContext } from '../../contexts/contract-context';
 import { UiContext } from '../../contexts/ui-context';
 import { SeatsContext } from '../../contexts/seats-context';
 import { SeatData } from '../../contexts/seats-context/types';
+import { DialogsContext } from '../../contexts/dialogs-context';
 
 export default function useHandleContract () {
 
   const { setAccount, setContractInstance } = useContext(ContractContext);
   const { setSeats } = useContext(SeatsContext);
   const { toggleIsLoadingSeats } = useContext(UiContext);
+  const { openNoEthereumDialog } = useContext(DialogsContext);
 
   useEffect(() => {
     getContractInstance();
@@ -23,6 +25,7 @@ export default function useHandleContract () {
   async function getContractInstance () {
     // @ts-ignore
     const eth = window.ethereum;
+    if (!eth) { openNoEthereumDialog(); return; }
     eth.request({ method:'eth_requestAccounts' });
     const web3 = new Web3(eth);
     const accounts = await web3.eth.getAccounts();
@@ -50,7 +53,7 @@ export default function useHandleContract () {
     }));
     setSeats(parsedSeats);
     setContractInstance(instance);
-    
+    toggleIsLoadingSeats();
   }
 
   return {
