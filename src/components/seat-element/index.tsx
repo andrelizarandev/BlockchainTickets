@@ -13,18 +13,23 @@ import { SeatData } from '../../screen/cinema-room/types';
 
 export default function SeatElement (props:SeatData) {
 
-  const { column, row } = props;
-  const { openAddTicketDialog, setSelectedSeat, openRemoveTicketSeatDialog } = useContext(CinemaRoomScreenContext);
+  const { column, row, inUse } = props;
+  const { 
+    openAddTicketDialog, 
+    setSelectedSeat,
+    openRemoveTicketSeatDialog
+  } = useContext(CinemaRoomScreenContext);
 
   function selectSeat () {
-    openRemoveTicketSeatDialog();
     setSelectedSeat(props);
+    if (inUse) openRemoveTicketSeatDialog();
+    else openAddTicketDialog();
   }
 
   return (
     <Grid sx={SeatElementStyle.GridContainer} md={1} item>
       <Tooltip title={`Silla ${row}, ${column}`} onClick={selectSeat}>
-        <Stack sx={SeatElementStyle.MainContainer}/>
+        <Stack sx={SeatElementStyle.MainContainer(inUse)}/>
       </Tooltip>
     </Grid>
   )

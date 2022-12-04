@@ -1,14 +1,16 @@
 // Modules
-import { grey } from '@mui/material/colors';
+import { amber } from '@mui/material/colors';
 
 const SeatElementStyle = {
 
-  MainContainer: {
-    borderRadius:2,
-    border:`2px solid white`,
-    width:'50px',
-    height:'50px',
-    cursor:'pointer'
+  MainContainer (inUse:boolean) {
+    return {
+      borderRadius:2,
+      border:`2px solid ${inUse ? amber[500] : 'white' }`,
+      width:'50px',
+      height:'50px',
+      cursor:'pointer'
+    }
   },
 
   GridContainer: {

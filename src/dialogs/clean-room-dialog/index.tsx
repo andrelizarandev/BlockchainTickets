@@ -9,16 +9,37 @@ import {
   Stack
 } from '@mui/material';
 import { useContext } from 'react';
+import useHandleSeats from '../../hooks/use-handle-seats';
 
 // Context
 import { CinemaRoomScreenContext } from '../../screen/cinema-room';
+import SeatsRoom from '../../screen/cinema-room/seats-room';
 
 export default function CleanRoomDialog () {
 
   const { 
     whichDialogIsOpen, 
     closeAnyDialog, 
+    seats,
+    contractInstance,
+    account
   } = useContext(CinemaRoomScreenContext);
+
+  const {
+    cleanSeats
+  } = useHandleSeats();
+
+  async function cleanRoom () {
+    var promiseArray:any[] = [];
+    const filteredSeats = seats.filter((seat) => seat.inUse);
+    const mappedSeatsId = filteredSeats.map((seat) => seat.id);
+    mappedSeatsId.forEach((id) => {
+      const cleanPromise = contractInstance.methods.toggleInUse(id).send({ from:account });
+      promiseArray.push(cleanPromise)
+    });
+    await Promise.all(promiseArray);
+    cleanSeats();
+  }
 
   return (
     <Dialog open={whichDialogIsOpen === 'clean-room'} onClose={closeAnyDialog} fullWidth={true} maxWidth='sm'>
@@ -30,7 +51,7 @@ export default function CleanRoomDialog () {
       </DialogContent>
       <DialogActions>
         <Button onClick={closeAnyDialog}>Cancelar</Button>
-        <Button onClick={closeAnyDialog}>Limpiar</Button>
+        <Button onClick={cleanRoom}>Limpiar</Button>
       </DialogActions>
     </Dialog>
   )

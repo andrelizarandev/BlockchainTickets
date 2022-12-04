@@ -1,5 +1,4 @@
 // Modules
-import { useContext } from 'react';
 import { 
   Dialog, 
   DialogContent, 
@@ -9,6 +8,10 @@ import {
   Stack, 
   TextField 
 } from '@mui/material';
+import { useContext } from 'react';
+
+// Hooks
+import useHandleSeats from '../../hooks/use-handle-seats';
 
 // Style
 import FlexStyle from '../../style/flex';
@@ -17,12 +20,23 @@ import FlexStyle from '../../style/flex';
 import { CinemaRoomScreenContext } from '../../screen/cinema-room';
 
 export default function SellTicketsDialog () {
-
+  
   const { 
     closeAnyDialog, 
     whichDialogIsOpen, 
-    selectedSeat
+    selectedSeat,
+    contractInstance,
+    account
   } = useContext(CinemaRoomScreenContext);
+  
+  const {
+    toggleSeatInUse
+  } = useHandleSeats();
+
+  async function sellTicket () {
+    await contractInstance.methods.toggleInUse(selectedSeat?.id).send({ from:account });
+    toggleSeatInUse(selectedSeat?.id!!, true);
+  }
 
   return (
     <Dialog open={whichDialogIsOpen === 'add-ticket'} onClose={closeAnyDialog} fullWidth={true} maxWidth='sm'>
@@ -45,7 +59,7 @@ export default function SellTicketsDialog () {
       </DialogContent>
       <DialogActions>
         <Button onClick={closeAnyDialog}>Cancelar</Button>
-        <Button onClick={closeAnyDialog}>Vender</Button>
+        <Button onClick={sellTicket}>Vender</Button>
       </DialogActions>
     </Dialog>
   )
