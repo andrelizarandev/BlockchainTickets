@@ -1,6 +1,5 @@
 // Modules
 import Web3 from 'web3';
-import { Contract } from 'web3-eth-contract';
 import { Stack, Button, Grid } from '@mui/material';
 import { useState, createContext, useEffect } from 'react';
 
@@ -37,6 +36,8 @@ export default function CinemaRoomScreen () {
   const [ whichDialogIsOpen, setWhichDialogIsOpen ] = useState<DialogOptions>(null);
   const [ selectedSeat, setSelectedSeat ] = useState<SeatData | null>(null);
   const [ contractInstance, setContractInstance ] = useState<any>(null);
+  const [ account, setAccount ] = useState<null | string>(null);
+  const [ seats, setSeats ] = useState<SeatData[]>([]);
 
   const openAddTicketDialog = () => setWhichDialogIsOpen('add-ticket');
   const openGetTicketDialog = () => setWhichDialogIsOpen('get-ticket');
@@ -57,25 +58,39 @@ export default function CinemaRoomScreen () {
     selectedSeat,
     setSelectedSeat,
     closeAnyDialogAndCleanSelectedSeat,
-    contractInstance
+    contractInstance,
+    seats,
+    setSeats
   }
 
   async function getContractInstance () {
     // @ts-ignore
     const web3 = new Web3(window.ethereum);
     const accounts = await web3.eth.getAccounts();
+    setAccount(accounts[0]);
     const res = await fetch("public/SeatContract.json");
     const seatContractJson = await res.json();
     const deployedNetwork = seatContractJson.networks[5777]
     const abi = seatContractJson.abi;
     const instance = new web3.eth.Contract(abi, deployedNetwork && deployedNetwork.address);
-    const seats = await instance.methods.getFirstSeat().call();
-    console.log(seats);
+    getSeats(instance);
   }
 
-  async function getSeats () {
-    const seats = await contractInstance.methods.getFirstSeat().call();
-    console.log(seats);
+  async function getSeats (instance:any) {
+    var promiseArray:any[] = [];
+    for (let i = 0; i < 24; i++) {
+      const seatPromise = instance.methods.getSeat(i).call();
+      promiseArray.push(seatPromise)
+    }
+    const response = await Promise.all(promiseArray);
+    const parsedSeats:SeatData[] = response.map(({ row, inUse, id, column }) => ({ 
+      row:Number(row), 
+      column:String(column),
+      id:Number(id), 
+      inUse:Boolean(inUse), 
+    }));
+    setSeats(parsedSeats);
+    setContractInstance(instance);
   }
 
   useEffect(() => {

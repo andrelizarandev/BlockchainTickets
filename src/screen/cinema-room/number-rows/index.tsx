@@ -23,4 +23,4 @@ export default function NumberRows () {
   )
 }
 
-const data = [1, 2, 3, 4, 5, 6];
+const data = [1, 2];
