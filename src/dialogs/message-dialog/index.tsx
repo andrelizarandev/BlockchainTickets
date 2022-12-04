@@ -9,17 +9,20 @@ import {
   Stack
 } from '@mui/material';
 import { useContext } from 'react';
+import { DialogsContext } from '../../contexts/dialogs-context';
+import { UiContext } from '../../contexts/ui-context';
 
 // Context
 import { CinemaRoomScreenContext } from '../../screen/cinema-room';
 
 export default function MessageDialog () {
 
-  const { 
-    whichDialogIsOpen, 
-    closeAnyDialog, 
-    message
-  } = useContext(CinemaRoomScreenContext);
+  const { message } = useContext(UiContext);
+
+  const {
+    closeAnyDialog,
+    whichDialogIsOpen
+  } = useContext(DialogsContext);
 
   return (
     <Dialog open={whichDialogIsOpen === 'message'} onClose={closeAnyDialog} fullWidth={true} maxWidth='sm'>

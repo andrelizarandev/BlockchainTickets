@@ -1,12 +1,16 @@
 // Modules
 import { useContext } from 'react';
+import { DialogsContext } from '../../contexts/dialogs-context';
+import { UiContext } from '../../contexts/ui-context';
 
 // Contexts
 import { CinemaRoomScreenContext } from '../../screen/cinema-room';
 
 export default function useHandleSeats () {
   
-  const { seats, setSeats, openMessageDialog, setMessage } = useContext(CinemaRoomScreenContext);
+  const { seats, setSeats } = useContext(CinemaRoomScreenContext);
+  const { setMessage } = useContext(UiContext);
+  const { openMessageDialog } = useContext(DialogsContext);
 
   function toggleSeatInUse (id:number, added:boolean) {
     openMessageDialog();

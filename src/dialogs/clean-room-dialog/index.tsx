@@ -9,21 +9,26 @@ import {
   Stack
 } from '@mui/material';
 import { useContext } from 'react';
-import useHandleSeats from '../../hooks/use-handle-seats';
 
-// Context
+// Contexts
+import { DialogsContext } from '../../contexts/dialogs-context';
 import { CinemaRoomScreenContext } from '../../screen/cinema-room';
-import SeatsRoom from '../../screen/cinema-room/seats-room';
+
+// Hooks
+import useHandleSeats from '../../hooks/use-handle-seats';
 
 export default function CleanRoomDialog () {
 
   const { 
-    whichDialogIsOpen, 
-    closeAnyDialog, 
     seats,
     contractInstance,
     account
   } = useContext(CinemaRoomScreenContext);
+
+  const {
+    closeAnyDialog,
+    whichDialogIsOpen,
+  } = useContext(DialogsContext);
 
   const {
     cleanSeats

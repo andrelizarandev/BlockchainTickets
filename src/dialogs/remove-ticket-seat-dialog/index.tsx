@@ -19,16 +19,20 @@ import useHandleSeats from '../../hooks/use-handle-seats';
 
 // Style
 import FlexStyle from '../../style/flex';
+import { DialogsContext } from '../../contexts/dialogs-context';
 
 export default function RemoveTicketSeatDialog () {
 
   const { 
-    whichDialogIsOpen, 
-    closeAnyDialog, 
     selectedSeat,
     contractInstance,
     account
   } = useContext(CinemaRoomScreenContext);
+
+  const {
+    closeAnyDialog,
+    whichDialogIsOpen
+  } = useContext(DialogsContext);
 
   const {
     toggleSeatInUse

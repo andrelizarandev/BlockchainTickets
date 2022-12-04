@@ -12,18 +12,18 @@ import {
 import { useContext } from 'react';
 
 // Context
-import { CinemaRoomScreenContext } from '../../screen/cinema-room';
+import { DialogsContext } from '../../contexts/dialogs-context';
 
 // Hooks
 import useHandleForm from '../../hooks/use-handle-form';
 
 export default function GetTicketDialog () {
 
-  const { 
-    closeAnyDialog, 
+  const {
+    closeAnyDialog,
     whichDialogIsOpen,
     openShowTicketSeatDialog
-  } = useContext(CinemaRoomScreenContext);
+  } = useContext(DialogsContext);
 
   const { form, handleForm } = useHandleForm(initialState);
   const { ticketCode } = form;

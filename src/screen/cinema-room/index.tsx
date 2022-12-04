@@ -1,16 +1,20 @@
 // Modules
 import Web3 from 'web3';
-import { useState, createContext, useEffect } from 'react';
+import { useState, createContext, useEffect, useContext } from 'react';
 import { Stack, Button, Grid, CircularProgress } from '@mui/material';
 
 // Components
 import SeatsRoom from './seats-room';
-import NumberRows from './number-rows';
 import LetterColumns from './letter-columns';
 import Header from '../../components/header';
 import ColorsRow from '../../components/colors-row';
 
+// Context Containers
+import UiContextContainer, { UiContext } from '../../contexts/ui-context';
+import DialogsContextContainer, { DialogsContext } from '../../contexts/dialogs-context';
+
 // Dialogs 
+import MessageDialog from '../../dialogs/message-dialog';
 import GetTicketDialog from '../../dialogs/get-ticket-dialog';
 import CleanRoomDialog from '../../dialogs/clean-room-dialog';
 import SellTicketsDialog from '../../dialogs/sell-ticket-dialog';
@@ -26,54 +30,32 @@ import CinemaScreenStyle from './style';
 import FlexStyle from '../../style/flex';
 
 // Types
-import { CinemaRoomScreenContextPayload, DialogOptions, MessageDialogPayload, SeatData } from './types';
-import MessageDialog from '../../dialogs/message-dialog';
+import { CinemaRoomScreenContextPayload, SeatData } from './types';
+
 
 export const CinemaRoomScreenContext = createContext({} as CinemaRoomScreenContextPayload);
 
 export default function CinemaRoomScreen () {
 
-  const [ whichDialogIsOpen, setWhichDialogIsOpen ] = useState<DialogOptions>(null);
   const [ selectedSeat, setSelectedSeat ] = useState<SeatData | null>(null);
   const [ contractInstance, setContractInstance ] = useState<any>(null);
   const [ account, setAccount ] = useState<null | string>(null);
   const [ seats, setSeats ] = useState<SeatData[]>([]);
-  const [ message, setMessage ] = useState<MessageDialogPayload | null>(null);
-  const [ isLoadingSeats, setIsLoadingSeats ] = useState(true);
-  const [ isLoadingAction, setIsLoadingAction ] = useState(false);
-
-  const openAddTicketDialog = () => setWhichDialogIsOpen('add-ticket');
-  const openGetTicketDialog = () => setWhichDialogIsOpen('get-ticket');
-  const openShowTicketSeatDialog = () => setWhichDialogIsOpen('show-ticket-seat');
-  const openRemoveTicketSeatDialog = () => setWhichDialogIsOpen('remove-ticket');
-  const openCleanRoomDialog = () => setWhichDialogIsOpen('clean-room');
-  const openMessageDialog = () => { setWhichDialogIsOpen('message');}
-  const closeAnyDialog = () => setWhichDialogIsOpen(null);
-  const closeAnyDialogAndCleanSelectedSeat = () => { closeAnyDialog(); setSelectedSeat(null) }
 
   const payload:CinemaRoomScreenContextPayload = {
     isEthereumLoaded:true,
-    whichDialogIsOpen,
-
-    openAddTicketDialog,
-    openShowTicketSeatDialog,
-    openRemoveTicketSeatDialog,
-    openCleanRoomDialog,
-    openMessageDialog,
-
-    closeAnyDialog,
     selectedSeat,
     setSelectedSeat,
-    closeAnyDialogAndCleanSelectedSeat,
     contractInstance,
     seats,
     setSeats,
-    account,
-    message,
-    setMessage,
-    isLoadingAction, 
-    setIsLoadingAction
+    account
   }
+
+  const { 
+    toggleIsLoadingSeats, 
+    isLoadingSeats 
+  } = useContext(UiContext);
 
   async function getContractInstance () {
     // @ts-ignore
@@ -105,7 +87,7 @@ export default function CinemaRoomScreen () {
     }));
     setSeats(parsedSeats);
     setContractInstance(instance);
-    setIsLoadingSeats(false)
+    toggleIsLoadingSeats()
   }
 
   useEffect(() => {
@@ -113,6 +95,9 @@ export default function CinemaRoomScreen () {
   }, []);
 
   function OptionContainer () {
+  
+    const { openGetTicketDialog, openCleanRoomDialog } = useContext(DialogsContext);
+
     return (
       <Stack sx={FlexStyle.FlexRowGap3} justifyContent='center'>    
         <Button 
@@ -140,25 +125,27 @@ export default function CinemaRoomScreen () {
   }
 
   return (
-    <CinemaRoomScreenContext.Provider value={payload}>
+    <UiContextContainer>
+      <DialogsContextContainer>
+        <CinemaRoomScreenContext.Provider value={payload}>
+          <Stack sx={CinemaScreenStyle.MainContainer}>
+            <Header/>
+            <Stack sx={CinemaScreenStyle.MainPaddingContainer}>
+              <OptionContainer/>
+              { isLoadingSeats ? <CircularProgress sx={{ color:'white' }} /> : <InformationContainer/>}
+              <ColorsRow/>
+            </Stack>
+          </Stack>
+          <SellTicketsDialog/>
+          <GetTicketDialog/>
+          <ShowTicketSeatDialog/>
+          <RemoveTicketSeatDialog/>
+          <CleanRoomDialog/>
+          <MessageDialog/>
+        </CinemaRoomScreenContext.Provider>
       
-      <Stack sx={CinemaScreenStyle.MainContainer}>
-        <Header/>
-        <Stack sx={CinemaScreenStyle.MainPaddingContainer}>
-          <OptionContainer/>
-          { isLoadingSeats ? <CircularProgress sx={{ color:'white' }} /> : <InformationContainer/>}
-          <ColorsRow/>
-        </Stack>
-      </Stack>
-
-      <SellTicketsDialog/>
-      <GetTicketDialog/>
-      <ShowTicketSeatDialog/>
-      <RemoveTicketSeatDialog/>
-      <CleanRoomDialog/>
-      <MessageDialog/>
-
-    </CinemaRoomScreenContext.Provider>
+      </DialogsContextContainer>
+    </UiContextContainer>
   )
 }
 

@@ -10,16 +10,20 @@ import SeatElementStyle from './style'
 
 // Types
 import { SeatData } from '../../screen/cinema-room/types';
+import { DialogsContext } from '../../contexts/dialogs-context';
 
 export default function SeatElement (props:SeatData) {
 
   const { column, row, inUse } = props;
   
-  const { 
-    openAddTicketDialog, 
+  const {  
     setSelectedSeat,
-    openRemoveTicketSeatDialog
   } = useContext(CinemaRoomScreenContext);
+
+  const {
+    openAddTicketDialog,
+    openRemoveTicketSeatDialog
+  } = useContext(DialogsContext);
 
   function selectSeat () {
     setSelectedSeat(props);

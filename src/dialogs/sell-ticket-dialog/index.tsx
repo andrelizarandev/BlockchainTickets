@@ -18,16 +18,20 @@ import FlexStyle from '../../style/flex';
 
 // Types
 import { CinemaRoomScreenContext } from '../../screen/cinema-room';
+import { DialogsContext } from '../../contexts/dialogs-context';
 
 export default function SellTicketsDialog () {
   
   const { 
-    closeAnyDialog, 
-    whichDialogIsOpen, 
     selectedSeat,
     contractInstance,
     account
   } = useContext(CinemaRoomScreenContext);
+
+  const {
+    closeAnyDialog,
+    whichDialogIsOpen
+  } = useContext(DialogsContext);
   
   const {
     toggleSeatInUse
