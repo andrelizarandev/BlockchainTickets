@@ -12,8 +12,9 @@ import { useContext } from 'react';
 import { ContractContext } from '../../contexts/contract-context';
 
 // Contexts
-import { DialogsContext } from '../../contexts/dialogs-context';
+import { UiContext } from '../../contexts/ui-context';
 import { SeatsContext } from '../../contexts/seats-context';
+import { DialogsContext } from '../../contexts/dialogs-context';
 
 // Hooks
 import useHandleSeats from '../../hooks/use-handle-seats';
@@ -32,7 +33,13 @@ export default function CleanRoomDialog () {
     cleanSeats
   } = useHandleSeats();
 
+  const { 
+    toggleIsLoadingAction, 
+    isLoadingAction 
+  } = useContext(UiContext);
+
   async function cleanRoom () {
+    toggleIsLoadingAction(true);
     var promiseArray:any[] = [];
     const filteredSeats = seats.filter((seat) => seat.inUse);
     const mappedSeatsId = filteredSeats.map((seat) => seat.id);
@@ -42,6 +49,7 @@ export default function CleanRoomDialog () {
     });
     await Promise.all(promiseArray);
     cleanSeats();
+    toggleIsLoadingAction(false);
   }
 
   return (
@@ -53,8 +61,8 @@ export default function CleanRoomDialog () {
         </Stack>
       </DialogContent>
       <DialogActions>
-        <Button onClick={closeAnyDialog}>Cancelar</Button>
-        <Button onClick={cleanRoom}>Limpiar</Button>
+        <Button disabled={isLoadingAction} onClick={closeAnyDialog}>Cancelar</Button>
+        <Button disabled={isLoadingAction} onClick={cleanRoom}>Limpiar</Button>
       </DialogActions>
     </Dialog>
   )

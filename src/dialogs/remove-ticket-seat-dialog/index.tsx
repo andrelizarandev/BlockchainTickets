@@ -12,6 +12,7 @@ import {
 import { useContext } from 'react';
 
 // Context
+import { UiContext } from '../../contexts/ui-context';
 import { SeatsContext } from '../../contexts/seats-context';
 import { DialogsContext } from '../../contexts/dialogs-context';
 import { ContractContext } from '../../contexts/contract-context';
@@ -25,7 +26,6 @@ import FlexStyle from '../../style/flex';
 export default function RemoveTicketSeatDialog () {
 
   const { selectedSeat } = useContext(SeatsContext);
-
   const { contractInstance, account } = useContext(ContractContext);
 
   const {
@@ -37,9 +37,16 @@ export default function RemoveTicketSeatDialog () {
     toggleSeatInUse
   } = useHandleSeats();
 
+  const { 
+    toggleIsLoadingAction, 
+    isLoadingAction 
+  } = useContext(UiContext);
+
   async function removeTicket () {
+    toggleIsLoadingAction(true);
     await contractInstance.methods.toggleInUse(selectedSeat?.id).send({ from:account });
     toggleSeatInUse(selectedSeat?.id!!, false);
+    toggleIsLoadingAction(false);
   }
 
   return (
@@ -65,8 +72,8 @@ export default function RemoveTicketSeatDialog () {
         </Stack>
       </DialogContent>
       <DialogActions>
-        <Button onClick={closeAnyDialog}>Cancelar</Button>
-        <Button onClick={removeTicket}>Remover</Button>
+        <Button disabled={isLoadingAction} onClick={closeAnyDialog}>Cancelar</Button>
+        <Button disabled={isLoadingAction} onClick={removeTicket}>Remover</Button>
       </DialogActions>
     </Dialog>
   )

@@ -15,7 +15,7 @@ export default function useHandleContract () {
 
   const { setAccount, setContractInstance } = useContext(ContractContext);
   const { setSeats } = useContext(SeatsContext);
-  const { toggleIsLoadingSeats } = useContext(UiContext);
+  const { toggleIsLoadingSeats, toggleIsLoadingAction } = useContext(UiContext);
   const { openNoEthereumDialog } = useContext(DialogsContext);
 
   useEffect(() => {

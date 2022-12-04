@@ -22,10 +22,10 @@ export default function NoEthereumDialog () {
       maxWidth='sm' 
       disableEscapeKeyDown={true}
     >
-      <DialogTitle>No cuentas con acceso a Metamask</DialogTitle>
+      <DialogTitle>No cuentas con acceso a MetaMask</DialogTitle>
       <DialogContent>
         <Stack>
-          <DialogContentText>Es necesario utilices la extensión de Metamask para Chrome</DialogContentText>
+          <DialogContentText>Es necesario utilices la extensión de MetaMask para Chrome</DialogContentText>
         </Stack>
       </DialogContent>
     </Dialog>

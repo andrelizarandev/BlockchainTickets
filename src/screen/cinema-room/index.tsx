@@ -7,7 +7,7 @@ import Header from '../../components/header';
 import ColorsRow from '../../components/colors-row';
 
 // Context Containers
-import UiContextContainer from '../../contexts/ui-context';
+import UiContextContainer, { UiContext } from '../../contexts/ui-context';
 import DialogsContextContainer, { DialogsContext } from '../../contexts/dialogs-context';
 
 // Dialogs 
@@ -15,6 +15,7 @@ import MessageDialog from '../../dialogs/message-dialog';
 import InformationContainer from './information-container';
 import GetTicketDialog from '../../dialogs/get-ticket-dialog';
 import CleanRoomDialog from '../../dialogs/clean-room-dialog';
+import NoEthereumDialog from '../../dialogs/no-ethereum-dialog';
 import SellTicketsDialog from '../../dialogs/sell-ticket-dialog';
 import ShowTicketSeatDialog from '../../dialogs/show-ticket-seat-dialog';
 import RemoveTicketSeatDialog from '../../dialogs/remove-ticket-seat-dialog';
@@ -30,24 +31,28 @@ import FlexStyle from '../../style/flex';
 // Types
 import SeatsContextContainer from '../../contexts/seats-context';
 import ContractContextContainer from '../../contexts/contract-context';
-import NoEthereumDialog from '../../dialogs/no-ethereum-dialog';
 
 export default function CinemaRoomScreen () {
 
   function OptionContainer () {
+
     const { openGetTicketDialog, openCleanRoomDialog } = useContext(DialogsContext);
+    const { isLoadingSeats } = useContext(UiContext);
+
     return (
       <Stack sx={FlexStyle.FlexRowGap3} justifyContent='center'>    
         <Button 
           variant='contained' 
           startIcon={<SearchIcon/>}
           onClick={openGetTicketDialog}
+          disabled={isLoadingSeats}
         >Obtener ubicación de Ticket</Button> 
         <Button 
           variant='contained' 
           color='error'
           startIcon={<DeleteIcon/>}
           onClick={openCleanRoomDialog}
+          disabled={isLoadingSeats}
         >Limpiar sala</Button>
       </Stack>
     )

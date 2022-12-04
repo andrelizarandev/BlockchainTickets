@@ -12,16 +12,15 @@ import { useContext } from 'react';
 import { ContractContext } from '../../contexts/contract-context';
 
 // Contexts
-import { DialogsContext } from '../../contexts/dialogs-context';
+import { UiContext } from '../../contexts/ui-context';
 import { SeatsContext } from '../../contexts/seats-context';
+import { DialogsContext } from '../../contexts/dialogs-context';
 
 // Hooks
 import useHandleSeats from '../../hooks/use-handle-seats';
 
 // Style
 import FlexStyle from '../../style/flex';
-
-// Types
 
 export default function SellTicketsDialog () {
   
@@ -37,9 +36,13 @@ export default function SellTicketsDialog () {
     toggleSeatInUse
   } = useHandleSeats();
 
+  const { toggleIsLoadingAction, isLoadingAction } = useContext(UiContext);
+
   async function sellTicket () {
+    toggleIsLoadingAction(true);
     await contractInstance.methods.toggleInUse(selectedSeat?.id).send({ from:account });
     toggleSeatInUse(selectedSeat?.id!!, true);
+    toggleIsLoadingAction(false);
   }
 
   return (
@@ -62,8 +65,8 @@ export default function SellTicketsDialog () {
         </Stack>
       </DialogContent>
       <DialogActions>
-        <Button onClick={closeAnyDialog}>Cancelar</Button>
-        <Button onClick={sellTicket}>Vender</Button>
+        <Button disabled={isLoadingAction} onClick={closeAnyDialog}>Cancelar</Button>
+        <Button disabled={isLoadingAction} onClick={sellTicket}>Vender</Button>
       </DialogActions>
     </Dialog>
   )

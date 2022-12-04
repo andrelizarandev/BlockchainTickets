@@ -4,7 +4,7 @@ export type UiContextPayload = {
   isLoadingSeats:boolean;
   isLoadingAction:boolean;
   toggleIsLoadingSeats ():void
-  toggleIsLoadingAction ():void 
+  toggleIsLoadingAction (value:boolean):void 
 }
 
 export type MessageDialogPayload = {
