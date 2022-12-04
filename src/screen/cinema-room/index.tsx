@@ -114,7 +114,7 @@ export default function CinemaRoomScreen () {
 
   function OptionContainer () {
     return (
-      <Stack sx={FlexStyle.FlexRowGap3}>    
+      <Stack sx={FlexStyle.FlexRowGap3} justifyContent='center'>    
         <Button 
           variant='contained' 
           startIcon={<SearchIcon/>}
@@ -132,15 +132,10 @@ export default function CinemaRoomScreen () {
 
   function InformationContainer () {
     return (
-      <Grid container spacing={4} sx={CinemaScreenStyle.GridContainer}>
-        <Grid item md={11}>
-          <Stack rowGap={2}>
-            <LetterColumns/>
-            <SeatsRoom/>
-          </Stack>
-        </Grid>
-        <NumberRows/>
-      </Grid> 
+      <Stack rowGap={2}>
+        <LetterColumns/>
+        <SeatsRoom/>
+      </Stack>
     )
   }
 

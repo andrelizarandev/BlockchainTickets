@@ -9,7 +9,8 @@ const HeaderStyle = {
 
   MainPaddingContainer: {
     paddingY:2,
-    paddingX:4
+    paddingX:4,
+    alignItems:'center'
   }
 
 }

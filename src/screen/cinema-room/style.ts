@@ -12,7 +12,7 @@ const CinemaScreenStyle = {
   MainPaddingContainer: {
     padding:4,
     rowGap:4,
-    alignItems:'start'
+    alignItems:'center'
   },
 
   MainTitle: {

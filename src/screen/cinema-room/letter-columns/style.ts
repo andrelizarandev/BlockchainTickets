@@ -4,6 +4,11 @@ import { grey } from '@mui/material/colors';
 const LetterColumnsStyle = {
 
   GridContainer: {
+    paddingX:2,
+    width:'1000px'
+  },
+
+  GridItemContainer: {
     display:'flex',
     justifyContent:'center'
   },

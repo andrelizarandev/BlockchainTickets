@@ -14,6 +14,7 @@ import { SeatData } from '../../screen/cinema-room/types';
 export default function SeatElement (props:SeatData) {
 
   const { column, row, inUse } = props;
+  
   const { 
     openAddTicketDialog, 
     setSelectedSeat,

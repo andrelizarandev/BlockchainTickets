@@ -7,10 +7,12 @@ const SeatsRoomStyle = {
     backgroundColor:grey[800],
     border:'2px solid white',
     borderRadius:1,
+    maxWidth:'1000px'
   },
 
   MainPaddingContainer: {
-    padding:4,
+    paddingY:4,
+    paddingX:2,
     height:'100%'
   }
 

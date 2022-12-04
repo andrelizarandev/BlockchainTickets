@@ -16,6 +16,8 @@ const SeatElementStyle = {
   GridContainer: {
     display:'flex',
     justifyContent:'center',
+    width:'50px !important',
+    height:'50px !important',
   }
 
 }

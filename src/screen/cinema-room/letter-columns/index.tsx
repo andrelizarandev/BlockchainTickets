@@ -8,7 +8,7 @@ export default function LetterColumns () {
 
   function LetterChip ({ letter }:any) {
     return (
-      <Grid item md={1} sx={LetterColumnsStyle.GridContainer}>
+      <Grid item md={1} sx={LetterColumnsStyle.GridItemContainer}>
         <Stack sx={LetterColumnsStyle.ChipContainer}>
           <Typography variant='caption'>{letter}</Typography>
         </Stack>
@@ -17,7 +17,7 @@ export default function LetterColumns () {
   }
 
   return (
-    <Grid container sx={{ paddingX:4 }}>
+    <Grid container sx={LetterColumnsStyle.GridContainer}>
       {data.map((letter, key) => <LetterChip letter={letter} key={key}/>)}
     </Grid>
   )
