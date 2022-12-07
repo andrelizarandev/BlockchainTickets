@@ -31,18 +31,11 @@ export default function SellTicketsDialog () {
     closeAnyDialog,
     whichDialogIsOpen
   } = useContext(DialogsContext);
-  
-  const {
-    toggleSeatInUse
-  } = useHandleSeats();
 
   const { toggleIsLoadingAction, isLoadingAction } = useContext(UiContext);
 
   async function sellTicket () {
-    toggleIsLoadingAction(true);
-    await contractInstance.methods.toggleInUse(selectedSeat?.id).send({ from:account });
-    toggleSeatInUse(selectedSeat?.id!!, true);
-    toggleIsLoadingAction(false);
+    
   }
 
   return (

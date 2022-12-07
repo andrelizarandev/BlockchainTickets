@@ -21,7 +21,6 @@ import GetTicketDialog from '../../dialogs/get-ticket-dialog';
 import CleanRoomDialog from '../../dialogs/clean-room-dialog';
 import NoEthereumDialog from '../../dialogs/no-ethereum-dialog';
 import SellTicketsDialog from '../../dialogs/sell-ticket-dialog';
-import ShowTicketSeatDialog from '../../dialogs/show-ticket-seat-dialog';
 import RemoveTicketSeatDialog from '../../dialogs/remove-ticket-seat-dialog';
 
 // Hooks
@@ -97,7 +96,6 @@ export default function CinemaRoomScreen () {
 
               <SellTicketsDialog/>
               <GetTicketDialog/>
-              <ShowTicketSeatDialog/>
               <RemoveTicketSeatDialog/>
               <CleanRoomDialog/>
               <MessageDialog/>

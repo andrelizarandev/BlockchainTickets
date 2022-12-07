@@ -1,13 +1,18 @@
-import React, { useContext } from 'react'
-import { ContractContext } from '../../contexts/contract-context';
-import { DialogsContext } from '../../contexts/dialogs-context';
+// Modules
+import { useContext } from 'react';
+
+// Contexts
 import { UiContext } from '../../contexts/ui-context';
 import { UserContext } from '../../contexts/user-context';
+import { DialogsContext } from '../../contexts/dialogs-context';
+import { ContractContext } from '../../contexts/contract-context';
+
+// Types
 import { UserData } from '../../contexts/user-context/types';
 
 export default function useHandleUser () {
 
-  const { contractInstance, account } = useContext(ContractContext);
+  const { contractInstance } = useContext(ContractContext);
   const { openMessageDialog } = useContext(DialogsContext);
   const { setMessage } = useContext(UiContext);
   const { setUserData } = useContext(UserContext);

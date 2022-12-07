@@ -33,23 +33,20 @@ export default function CleanRoomDialog () {
     cleanSeats
   } = useHandleSeats();
 
-  const { 
-    toggleIsLoadingAction, 
+  const {
     isLoadingAction 
   } = useContext(UiContext);
 
   async function cleanRoom () {
-    toggleIsLoadingAction(true);
-    var promiseArray:any[] = [];
-    const filteredSeats = seats.filter((seat) => seat.inUse);
-    const mappedSeatsId = filteredSeats.map((seat) => seat.id);
-    mappedSeatsId.forEach((id) => {
-      const cleanPromise = contractInstance.methods.toggleInUse(id).send({ from:account });
-      promiseArray.push(cleanPromise)
-    });
-    await Promise.all(promiseArray);
-    cleanSeats();
-    toggleIsLoadingAction(false);
+    // var promiseArray:any[] = [];
+    // const filteredSeats = seats.filter((seat) => seat.inUse);
+    // const mappedSeatsId = filteredSeats.map((seat) => seat.id);
+    // mappedSeatsId.forEach((id) => {
+    //   const cleanPromise = contractInstance.methods.toggleInUse(id).send({ from:account });
+    //   promiseArray.push(cleanPromise)
+    // });
+    // await Promise.all(promiseArray);
+    // cleanSeats();
   }
 
   return (

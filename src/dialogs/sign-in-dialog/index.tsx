@@ -61,6 +61,6 @@ export default function SignInDialog () {
 }
 
 const initialState = {
-  email:'',
-  password:'',
+  email:'andrelizaran@gmail.com',
+  password:'HelloWorld123',
 }
