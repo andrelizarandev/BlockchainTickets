@@ -9,7 +9,6 @@ import {
   TextField 
 } from '@mui/material';
 import { useContext } from 'react';
-import { ContractContext } from '../../contexts/contract-context';
 
 // Contexts
 import { UiContext } from '../../contexts/ui-context';
@@ -25,18 +24,9 @@ import FlexStyle from '../../style/flex';
 export default function SellTicketsDialog () {
   
   const { selectedSeat } = useContext(SeatsContext);
-  const { contractInstance, account } = useContext(ContractContext);
-
-  const {
-    closeAnyDialog,
-    whichDialogIsOpen
-  } = useContext(DialogsContext);
-
-  const { toggleIsLoadingAction, isLoadingAction } = useContext(UiContext);
-
-  async function sellTicket () {
-    
-  }
+  const { closeAnyDialog, whichDialogIsOpen } = useContext(DialogsContext);
+  const { isLoadingAction } = useContext(UiContext);
+  const { buyTicket } = useHandleSeats();
 
   return (
     <Dialog open={whichDialogIsOpen === 'add-ticket'} onClose={closeAnyDialog} fullWidth={true} maxWidth='sm'>
@@ -59,7 +49,7 @@ export default function SellTicketsDialog () {
       </DialogContent>
       <DialogActions>
         <Button disabled={isLoadingAction} onClick={closeAnyDialog}>Cancelar</Button>
-        <Button disabled={isLoadingAction} onClick={sellTicket}>Vender</Button>
+        <Button disabled={isLoadingAction} onClick={buyTicket}>Vender</Button>
       </DialogActions>
     </Dialog>
   )

@@ -1,4 +1,5 @@
 // Modules
+import { v4 as uuid } from 'uuid';
 import { useContext } from 'react';
 
 // Contexts
@@ -9,13 +10,15 @@ import { ContractContext } from '../../contexts/contract-context';
 
 // Types
 import { SeatData } from '../../contexts/seats-context/types';
+import { UserContext } from '../../contexts/user-context';
 
 export default function useHandleSeats () {
   
-  const { seats, setSeats } = useContext(SeatsContext);
+  const { seats, setSeats, selectedSeat } = useContext(SeatsContext);
   const { setMessage } = useContext(UiContext);
   const { openMessageDialog } = useContext(DialogsContext);
-  const { contractInstance } = useContext(ContractContext);
+  const { contractInstance, account } = useContext(ContractContext);
+  const { userData } = useContext(UserContext);
 
   async function getSeats () {
     var promiseArray:any[] = [];
@@ -24,7 +27,6 @@ export default function useHandleSeats () {
       promiseArray.push(seatPromise)
     }
     const response = await Promise.all(promiseArray);
-    console.log(response);
     const parsedSeats:SeatData[] = response.map(({ row, idTicket, id, column }) => ({ 
       row:String(row), 
       column:String(column),
@@ -58,10 +60,24 @@ export default function useHandleSeats () {
     }
   }
 
+  function generateId () {
+    const id = uuid();
+    return id.slice(0, 8);
+  }
+
+  async function buyTicket () {
+    const seatPromise = await contractInstance.methods.sellTicket(
+      generateId(),
+      selectedSeat?.id,
+      userData?.id
+    ).send({ from: account });
+  }
+
   return {
     getSeats,
     cleanSeats,
-    findSeat
+    findSeat,
+    buyTicket
   }
 
 }
