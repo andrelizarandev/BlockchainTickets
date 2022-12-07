@@ -32,10 +32,11 @@ export default function useHandleContract () {
     setAccount(accounts[0]);
     const res = await fetch("public/SeatContract.json");
     const seatContractJson = await res.json();
-    const deployedNetwork = seatContractJson.networks[5777]
+    const deployedNetwork = seatContractJson.networks[5777];
     const abi = seatContractJson.abi;
     const instance = new web3.eth.Contract(abi, deployedNetwork && deployedNetwork.address);
-    getSeats(instance);
+    setContractInstance(instance);
+    // getSeats(instance);
   }
 
   async function getSeats (instance:any) {
@@ -52,7 +53,7 @@ export default function useHandleContract () {
       inUse:Boolean(inUse), 
     }));
     setSeats(parsedSeats);
-    setContractInstance(instance);
+    
     toggleIsLoadingSeats();
   }
 

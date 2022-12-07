@@ -7,7 +7,7 @@ export const UiContext = createContext({} as UiContextPayload);
 export default function UiContextContainer ({ children }:any) {
   
   const [ message, setMessage ] = useState<MessageDialogPayload | null>(null);
-  const [ isLoadingSeats, setIsLoadingSeats ] = useState(true);
+  const [ isLoadingSeats, setIsLoadingSeats ] = useState(false);
   const [ isLoadingAction, setIsLoadingAction ] = useState(false);
 
   const toggleIsLoadingSeats = () => setIsLoadingSeats(!isLoadingSeats);

@@ -17,6 +17,7 @@ export default function DialogsContextContainer ({ children }:any) {
   const openCleanRoomDialog = () => setWhichDialogIsOpen('clean-room');
   const openMessageDialog = () => setWhichDialogIsOpen('message');
   const openNoEthereumDialog = () => setWhichDialogIsOpen('no-ethereum');
+  const openSignInDialog = () => setWhichDialogIsOpen('sign-in');
   const closeAnyDialog = () => setWhichDialogIsOpen(null);
 
   const payload:DialogsContextPayload = {
@@ -28,6 +29,7 @@ export default function DialogsContextContainer ({ children }:any) {
     openCleanRoomDialog,
     openMessageDialog,
     openNoEthereumDialog,
+    openSignInDialog,
     closeAnyDialog
   }
 
