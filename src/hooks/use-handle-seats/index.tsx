@@ -66,18 +66,46 @@ export default function useHandleSeats () {
   }
 
   async function buyTicket () {
-    const seatPromise = await contractInstance.methods.sellTicket(
-      generateId(),
-      selectedSeat?.id,
-      userData?.id
-    ).send({ from: account });
+    try {
+      const id = generateId();
+      await contractInstance.methods.sellTicket(
+        id,
+        selectedSeat?.id,
+        userData?.id
+      ).send({ from: account });
+      updateSeatTicket(id, selectedSeat?.id!!);
+      setMessage({ title:'Boleto vendido', message:`El código del ticket es ${id}` });
+      openMessageDialog();
+    } catch (err:any) {
+      setMessage({ title:'Error vendiendo boleto', message:`Intente de nuevo` });
+      openMessageDialog();
+    } 
   }
+
+  async function removeTicket () {
+    try {
+      await contractInstance.methods.removeTicket(selectedSeat?.id).send({ from: account });
+      updateSeatTicket("", selectedSeat?.id!!);
+      setMessage({ title:'Boleto removido', message:`Boleto removido con éxito` });
+      openMessageDialog();
+    } catch (err:any) {
+      console.log(err);
+      setMessage({ title:'Error removiento boleto', message:`Intente de nuevo` });
+      openMessageDialog();
+    } 
+  }
+
+  function updateSeatTicket (idTicket:string, idSeat:string) {
+    const newSeats = seats.map((seat) => ({ ...seat, idTicket:seat.id === idSeat ? idTicket : seat.idTicket }));
+    setSeats(newSeats);
+  } 
 
   return {
     getSeats,
     cleanSeats,
     findSeat,
-    buyTicket
+    buyTicket,
+    removeTicket
   }
 
 }

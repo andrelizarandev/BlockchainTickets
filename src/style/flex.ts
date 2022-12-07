@@ -6,10 +6,16 @@ const FlexStyle = {
     alignItems:'center'
   },
 
-  FlexRowGap1: {
+  FlexRowGap2: {
     flexDirection:'row',
-    columnGap:1,
+    columnGap:2,
     alignItems:'center'
+  },
+
+  FlexRowAlignCenterJustifyBetween: {
+    flexDirection:'row',
+    alignItems:'center',
+    justifyContent:'space-between'
   }
   
 }

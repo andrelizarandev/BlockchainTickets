@@ -1,5 +1,5 @@
 // Colors
-import { amber } from '@mui/material/colors';
+import { amber, indigo } from '@mui/material/colors';
 import { Stack, Box, Typography } from '@mui/material';
 
 // Style
@@ -14,7 +14,7 @@ export default function ColorsRow () {
   function ColorElement (props:ColorData) {
     const { color, title } = props;
     return (
-      <Stack sx={FlexStyle.FlexRowGap1}>
+      <Stack sx={FlexStyle.FlexRowGap2}>
         <Box sx={ColorRowStyle.ColorElement(color)}/>
         <Typography variant='subtitle2' color='white'>{title}</Typography>
       </Stack>
@@ -22,8 +22,11 @@ export default function ColorsRow () {
   }
 
   return (
-    <Stack sx={FlexStyle.FlexRowGap3}>
-      {data.map((color, key) => <ColorElement {...color} key={key}/>)}
+    <Stack sx={FlexStyle.FlexRowAlignCenterJustifyBetween} width='1000px'>
+      <Stack sx={FlexStyle.FlexRowGap3}>
+        {data.map((color, key) => <ColorElement {...color} key={key}/>)}
+      </Stack>
+      <ColorElement color={indigo[900]} title={`Total de boletos vendidos hoy: 0`}/>
     </Stack>
   )
 }

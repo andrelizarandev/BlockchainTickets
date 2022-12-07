@@ -33,21 +33,11 @@ export default function RemoveTicketSeatDialog () {
     whichDialogIsOpen
   } = useContext(DialogsContext);
 
-  const {
-    toggleSeatInUse
-  } = useHandleSeats();
+  const { removeTicket } = useHandleSeats();
 
-  const { 
-    toggleIsLoadingAction, 
-    isLoadingAction 
-  } = useContext(UiContext);
+  const { isLoadingAction } = useContext(UiContext);
 
-  async function removeTicket () {
-    toggleIsLoadingAction(true);
-    await contractInstance.methods.toggleInUse(selectedSeat?.id).send({ from:account });
-    toggleSeatInUse(selectedSeat?.id!!, false);
-    toggleIsLoadingAction(false);
-  }
+  const startRemovingTicket = () => removeTicket();
 
   return (
     <Dialog open={whichDialogIsOpen === 'remove-ticket'} onClose={closeAnyDialog} fullWidth={true} maxWidth='sm'>
@@ -73,7 +63,7 @@ export default function RemoveTicketSeatDialog () {
       </DialogContent>
       <DialogActions>
         <Button disabled={isLoadingAction} onClick={closeAnyDialog}>Cancelar</Button>
-        <Button disabled={isLoadingAction} onClick={removeTicket}>Remover</Button>
+        <Button disabled={isLoadingAction} onClick={startRemovingTicket}>Remover</Button>
       </DialogActions>
     </Dialog>
   )

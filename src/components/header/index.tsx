@@ -1,6 +1,8 @@
 // Modules
+import { useContext } from 'react';
 import { Stack, Typography } from '@mui/material';
-import { useContext, useState } from 'react';
+
+// Contexts
 import { UserContext } from '../../contexts/user-context';
 
 // Style
