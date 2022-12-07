@@ -3,7 +3,7 @@ import { amber } from '@mui/material/colors';
 
 const SeatElementStyle = {
 
-  MainContainer (inUse:boolean) {
+  MainContainer (inUse:string) {
     return {
       borderRadius:2,
       border:`2px solid ${inUse ? amber[500] : 'white' }`,

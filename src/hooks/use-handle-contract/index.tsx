@@ -36,7 +36,7 @@ export default function useHandleContract () {
     const abi = seatContractJson.abi;
     const instance = new web3.eth.Contract(abi, deployedNetwork && deployedNetwork.address);
     setContractInstance(instance);
-    // getSeats(instance);
+    getSeats(instance);
   }
 
   async function getSeats (instance:any) {
@@ -46,15 +46,13 @@ export default function useHandleContract () {
       promiseArray.push(seatPromise)
     }
     const response = await Promise.all(promiseArray);
-    const parsedSeats:SeatData[] = response.map(({ row, inUse, id, column }) => ({ 
-      row:Number(row), 
+    const parsedSeats:SeatData[] = response.map(({ row, idTicket, id, column }) => ({ 
+      row:String(row), 
       column:String(column),
-      id:Number(id), 
-      inUse:Boolean(inUse), 
+      id:String(id), 
+      idTicket:String(idTicket), 
     }));
     setSeats(parsedSeats);
-    
-    toggleIsLoadingSeats();
   }
 
   return {

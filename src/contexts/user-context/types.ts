@@ -9,4 +9,5 @@ export type UserData = {
   id:string;
   name:string;
   password:string;
+  email:string;
 }

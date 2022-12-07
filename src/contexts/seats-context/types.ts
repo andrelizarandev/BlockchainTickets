@@ -1,8 +1,8 @@
 export type SeatData = {
-  row:number;
+  row:string;
   column:string;
-  id:number;
-  inUse:boolean;
+  id:string;
+  idTicket:string;
 }
 
 export type SeatsContextPayload = {

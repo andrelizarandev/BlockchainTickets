@@ -30,7 +30,7 @@ export default function SignInDialog () {
   const startSignIn = () => signIn(email, password);
 
   return (
-    <Dialog open={whichDialogIsOpen === 'sign-in'} onClose={closeAnyDialog} fullWidth={true} maxWidth='sm'>
+    <Dialog open={whichDialogIsOpen === 'sign-in'} fullWidth={true} maxWidth='sm'>
       <DialogTitle>Iniciar Sesión</DialogTitle>
       <DialogContent>
         <Stack rowGap={3} mt={1}>
@@ -40,6 +40,7 @@ export default function SignInDialog () {
             onChange={handleForm}
             fullWidth
             type='email'
+            name='email'
           />
           <TextField 
             label='Contraseña' 

@@ -1,5 +1,4 @@
 // Modules
-import { v4 as uuid } from 'uuid';
 import { useContext } from 'react';
 import { Stack, Button } from '@mui/material';
 
@@ -9,7 +8,7 @@ import ColorsRow from '../../components/colors-row';
 
 // Context Containers
 import InformationContainer from './information-container';
-import UserContextContainer from '../../contexts/user-context';
+import UserContextContainer, { UserContext } from '../../contexts/user-context';
 import SeatsContextContainer from '../../contexts/seats-context';
 import ContractContextContainer from '../../contexts/contract-context';
 import UiContextContainer, { UiContext } from '../../contexts/ui-context';
@@ -25,15 +24,18 @@ import SellTicketsDialog from '../../dialogs/sell-ticket-dialog';
 import ShowTicketSeatDialog from '../../dialogs/show-ticket-seat-dialog';
 import RemoveTicketSeatDialog from '../../dialogs/remove-ticket-seat-dialog';
 
+// Hooks
+import useHandleUser from '../../hooks/use-handle-user';
+
 // Icons
 import SearchIcon from '@mui/icons-material/Search';
 import DeleteIcon from '@mui/icons-material/Delete';
+import LogoutIcon from '@mui/icons-material/Logout';
+import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
 
 // Style
 import CinemaScreenStyle from './style';
 import FlexStyle from '../../style/flex';
-
-// Types
 
 export default function CinemaRoomScreen () {
 
@@ -41,21 +43,17 @@ export default function CinemaRoomScreen () {
 
     const { openGetTicketDialog, openCleanRoomDialog, openSignInDialog } = useContext(DialogsContext);
     const { isLoadingSeats } = useContext(UiContext);
-
-
-    function createId () {
-      const randomId = uuid().slice(0,8);
-      console.log(randomId)
-    }
+    const { userData } = useContext(UserContext);
+    const { signOut } = useHandleUser();
 
     return (
       <Stack sx={FlexStyle.FlexRowGap3} justifyContent='center'>   
-        <Button 
+        {!userData && <Button 
           variant='contained' 
-          startIcon={<SearchIcon/>}
+          startIcon={<AssignmentIndIcon/>}
           onClick={openSignInDialog}
           disabled={isLoadingSeats}
-        >Iniciar Sesión</Button>  
+        >Iniciar Sesión</Button>}  
         <Button 
           variant='contained' 
           startIcon={<SearchIcon/>}
@@ -65,11 +63,18 @@ export default function CinemaRoomScreen () {
         >Obtener ubicación de Ticket</Button> 
         <Button 
           variant='contained' 
-          color='error'
+          color='warning'
           startIcon={<DeleteIcon/>}
           onClick={openCleanRoomDialog}
           disabled={isLoadingSeats}
         >Limpiar sala</Button>
+        {userData && <Button 
+          variant='contained' 
+          startIcon={<LogoutIcon/>}
+          onClick={signOut}
+          disabled={isLoadingSeats}
+          color='error'
+        >Cerrar Sesión</Button> }
       </Stack>
     )
   }
@@ -106,3 +111,8 @@ export default function CinemaRoomScreen () {
     </UiContextContainer> 
   )
 }
+
+// function createId () {
+//   const randomId = uuid().slice(0,8);
+//   console.log(randomId)
+// }
