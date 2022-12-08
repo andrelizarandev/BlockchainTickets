@@ -4,13 +4,13 @@ import { useContext } from 'react';
 
 // Contexts
 import { UiContext } from '../../contexts/ui-context';
+import { UserContext } from '../../contexts/user-context';
 import { SeatsContext } from '../../contexts/seats-context';
 import { DialogsContext } from '../../contexts/dialogs-context';
 import { ContractContext } from '../../contexts/contract-context';
 
 // Types
 import { SeatData } from '../../contexts/seats-context/types';
-import { UserContext } from '../../contexts/user-context';
 
 export default function useHandleSeats () {
   
@@ -89,7 +89,6 @@ export default function useHandleSeats () {
       setMessage({ title:'Boleto removido', message:`Boleto removido con éxito` });
       openMessageDialog();
     } catch (err:any) {
-      console.log(err);
       setMessage({ title:'Error removiento boleto', message:`Intente de nuevo` });
       openMessageDialog();
     } 
@@ -100,12 +99,23 @@ export default function useHandleSeats () {
     setSeats(newSeats);
   } 
 
+  async function getUserTickets () {
+    try {
+      const response = await contractInstance.methods.getUserTickets(userData?.id).call();
+      response.split(',')
+    } catch (err:any) {
+      setMessage({ title:'Error buscando tus tickets', message:`Intente de nuevo` });
+      openMessageDialog();
+    }
+  }
+
   return {
     getSeats,
     cleanSeats,
     findSeat,
     buyTicket,
-    removeTicket
+    removeTicket,
+    getUserTickets
   }
 
 }

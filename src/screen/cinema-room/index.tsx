@@ -8,10 +8,10 @@ import ColorsRow from '../../components/colors-row';
 
 // Context Containers
 import InformationContainer from './information-container';
-import UserContextContainer, { UserContext } from '../../contexts/user-context';
 import SeatsContextContainer from '../../contexts/seats-context';
 import ContractContextContainer from '../../contexts/contract-context';
 import UiContextContainer, { UiContext } from '../../contexts/ui-context';
+import UserContextContainer, { UserContext } from '../../contexts/user-context';
 import DialogsContextContainer, { DialogsContext } from '../../contexts/dialogs-context';
 
 // Dialogs 
@@ -21,6 +21,7 @@ import GetTicketDialog from '../../dialogs/get-ticket-dialog';
 import CleanRoomDialog from '../../dialogs/clean-room-dialog';
 import NoEthereumDialog from '../../dialogs/no-ethereum-dialog';
 import SellTicketsDialog from '../../dialogs/sell-ticket-dialog';
+import GetUserTicketsDialog from '../../dialogs/get-user-tickets-dialogs';
 import RemoveTicketSeatDialog from '../../dialogs/remove-ticket-seat-dialog';
 
 // Hooks
@@ -31,6 +32,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import DeleteIcon from '@mui/icons-material/Delete';
 import LogoutIcon from '@mui/icons-material/Logout';
 import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
+import ConfirmationNumberIcon from '@mui/icons-material/ConfirmationNumber';
 
 // Style
 import CinemaScreenStyle from './style';
@@ -40,13 +42,24 @@ export default function CinemaRoomScreen () {
 
   function OptionContainer () {
 
-    const { openGetTicketDialog, openCleanRoomDialog, openSignInDialog } = useContext(DialogsContext);
+    const { 
+      openGetTicketDialog, 
+      openCleanRoomDialog,
+      openSignInDialog,
+      openUserTicketsDialog 
+    } = useContext(DialogsContext);
     const { isLoadingSeats } = useContext(UiContext);
     const { userData } = useContext(UserContext);
     const { signOut } = useHandleUser();
 
     return (
       <Stack sx={FlexStyle.FlexRowGap3} justifyContent='center'>   
+        {userData && <Button 
+          variant='contained' 
+          startIcon={<ConfirmationNumberIcon/>}
+          onClick={openUserTicketsDialog}
+          disabled={isLoadingSeats}
+        >Obtener boletos comprados</Button>}  
         {!userData && <Button 
           variant='contained' 
           startIcon={<AssignmentIndIcon/>}
@@ -101,6 +114,7 @@ export default function CinemaRoomScreen () {
               <MessageDialog/>
               <NoEthereumDialog/>
               <SignInDialog/>
+              <GetUserTicketsDialog/>
         
             </DialogsContextContainer>
           </SeatsContextContainer>

@@ -26,7 +26,6 @@ export default function ColorsRow () {
       <Stack sx={FlexStyle.FlexRowGap3}>
         {data.map((color, key) => <ColorElement {...color} key={key}/>)}
       </Stack>
-      <ColorElement color={indigo[900]} title={`Total de boletos vendidos hoy: 0`}/>
     </Stack>
   )
 }

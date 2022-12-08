@@ -18,6 +18,7 @@ export default function DialogsContextContainer ({ children }:any) {
   const openMessageDialog = () => setWhichDialogIsOpen('message');
   const openNoEthereumDialog = () => setWhichDialogIsOpen('no-ethereum');
   const openSignInDialog = () => setWhichDialogIsOpen('sign-in');
+  const openUserTicketsDialog = () => setWhichDialogIsOpen('user-tickets');
   const closeAnyDialog = () => setWhichDialogIsOpen(null);
 
   const payload:DialogsContextPayload = {
@@ -30,6 +31,7 @@ export default function DialogsContextContainer ({ children }:any) {
     openMessageDialog,
     openNoEthereumDialog,
     openSignInDialog,
+    openUserTicketsDialog,
     closeAnyDialog
   }
 
