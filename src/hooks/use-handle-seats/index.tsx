@@ -18,7 +18,7 @@ export default function useHandleSeats () {
   const { setMessage } = useContext(UiContext);
   const { openMessageDialog } = useContext(DialogsContext);
   const { contractInstance, account } = useContext(ContractContext);
-  const { userData } = useContext(UserContext);
+  const { userData, setUserTickets } = useContext(UserContext);
 
   async function getSeats () {
     var promiseArray:any[] = [];
@@ -37,7 +37,7 @@ export default function useHandleSeats () {
   }
 
   function cleanSeats () {
-    const newSeats = seats.map((seat) => ({ ...seat, inUse:false }));
+    const newSeats = seats.map((seat) => ({ ...seat, idTicket:'' }));
     setSeats(newSeats);
     setMessage({ title:'Sala limpiada', message:'Sala limpiada con éxito' });
     openMessageDialog();
@@ -61,8 +61,7 @@ export default function useHandleSeats () {
   }
 
   function generateId () {
-    const id = uuid();
-    return id.slice(0, 8);
+    return uuid();
   }
 
   async function buyTicket () {
@@ -102,7 +101,12 @@ export default function useHandleSeats () {
   async function getUserTickets () {
     try {
       const response = await contractInstance.methods.getUserTickets(userData?.id).call();
-      response.split(',')
+      const tickets = response.split(',');
+      const filteredTickets:string[] = tickets.filter((ticket:any) => ticket);
+      var ticketsPromise = filteredTickets.map((ticket) => contractInstance.methods.getTicketById(ticket).call());
+      const ticketsData = await Promise.all(ticketsPromise);
+      const mappedTickets = ticketsData.map(({ column, id, idSeat, row, idTicket}) => ({ column, id, idSeat, row, idTicket }));
+      setUserTickets(mappedTickets);
     } catch (err:any) {
       setMessage({ title:'Error buscando tus tickets', message:`Intente de nuevo` });
       openMessageDialog();

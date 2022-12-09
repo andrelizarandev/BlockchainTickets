@@ -29,24 +29,22 @@ export default function CleanRoomDialog () {
     whichDialogIsOpen,
   } = useContext(DialogsContext);
 
-  const {
-    cleanSeats
-  } = useHandleSeats();
+  const { cleanSeats } = useHandleSeats();
 
   const {
     isLoadingAction 
   } = useContext(UiContext);
 
   async function cleanRoom () {
-    // var promiseArray:any[] = [];
-    // const filteredSeats = seats.filter((seat) => seat.inUse);
-    // const mappedSeatsId = filteredSeats.map((seat) => seat.id);
-    // mappedSeatsId.forEach((id) => {
-    //   const cleanPromise = contractInstance.methods.toggleInUse(id).send({ from:account });
-    //   promiseArray.push(cleanPromise)
-    // });
-    // await Promise.all(promiseArray);
-    // cleanSeats();
+    var promiseArray:any[] = [];
+    const filteredSeats = seats.filter((seat) => seat.idTicket);
+    const mappedSeatsId = filteredSeats.map((seat) => seat.id);
+    mappedSeatsId.forEach((id) => {
+      const cleanPromise = contractInstance.methods.removeTicket(id).send({ from:account });
+      promiseArray.push(cleanPromise)
+    });
+    await Promise.all(promiseArray);
+    cleanSeats();
   }
 
   return (

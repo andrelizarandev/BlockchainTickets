@@ -25,13 +25,19 @@ export default function GetTicketDialog () {
     whichDialogIsOpen,
   } = useContext(DialogsContext);
 
-  const { form, handleForm } = useHandleForm(initialState);
+  const { form, handleForm, setForm } = useHandleForm(initialState);
   const { ticketCode } = form;
   const { findSeat } = useHandleSeats();
 
   const startFindingSeat = () => findSeat(ticketCode);
+
+  function cleanAndClose () {
+    closeAnyDialog();
+    setForm(initialState);
+  }
+
   return (
-    <Dialog open={whichDialogIsOpen === 'get-ticket'} onClose={closeAnyDialog} fullWidth={true} maxWidth='sm'>
+    <Dialog open={whichDialogIsOpen === 'get-ticket'} onClose={cleanAndClose} fullWidth={true} maxWidth='sm'>
       <DialogTitle>Obtener Ticket</DialogTitle>
       <DialogContent>
         <Stack rowGap={2}>
@@ -40,7 +46,7 @@ export default function GetTicketDialog () {
         </Stack>
       </DialogContent>
       <DialogActions>
-        <Button onClick={closeAnyDialog}>Cancelar</Button>
+        <Button onClick={cleanAndClose}>Cancelar</Button>
         <Button onClick={startFindingSeat}>Buscar</Button>
       </DialogActions>
     </Dialog>
