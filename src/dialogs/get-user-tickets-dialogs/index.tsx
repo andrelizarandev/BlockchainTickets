@@ -6,7 +6,8 @@ import {
   DialogActions, 
   Button,
   Stack,
-  Typography
+  Typography,
+  Alert
 } from '@mui/material';
 import { useContext, useEffect } from 'react';
 
@@ -61,10 +62,11 @@ export default function GetUserTicketsDialog () {
 
   return (
     <Dialog open={whichDialogIsOpen === 'user-tickets'} onClose={cleanAndClose} fullWidth={true} maxWidth='sm'>
-      <DialogTitle>Tus Ticket</DialogTitle>
+      <DialogTitle>Tus Tickets</DialogTitle>
       <DialogContent>
         <Stack rowGap={3}>
           {userTickets.map((ticket, key) => <UserTicket {...ticket} key={key}/>)}
+          {!userTickets.length && <Alert severity='error'>No has adquirido tickets</Alert>}
         </Stack>
       </DialogContent>
       <DialogActions>

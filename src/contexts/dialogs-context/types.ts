@@ -9,7 +9,19 @@ export type DialogsContextPayload = {
   openNoEthereumDialog (): void;
   openSignInDialog (): void;
   openUserTicketsDialog (): void;
+  openCreateUserDialog (): void;
   closeAnyDialog (): void;
 }
 
-export type DialogOptions = 'add-ticket' | 'get-ticket' | 'show-ticket-seat' | 'remove-ticket' | 'clean-room' | 'message' | 'no-ethereum' | 'sign-in' | 'user-tickets' | null; 
+export type DialogOptions = 
+  'add-ticket' | 
+  'get-ticket' | 
+  'show-ticket-seat' | 
+  'remove-ticket' | 
+  'clean-room' | 
+  'message' | 
+  'no-ethereum' | 
+  'sign-in' | 
+  'user-tickets' |
+  'create-user' | 
+  null; 

@@ -19,6 +19,7 @@ import SignInDialog from '../../dialogs/sign-in-dialog';
 import MessageDialog from '../../dialogs/message-dialog';
 import GetTicketDialog from '../../dialogs/get-ticket-dialog';
 import CleanRoomDialog from '../../dialogs/clean-room-dialog';
+import CreateUserDialog from '../../dialogs/create-user-dialog';
 import NoEthereumDialog from '../../dialogs/no-ethereum-dialog';
 import SellTicketsDialog from '../../dialogs/sell-ticket-dialog';
 import GetUserTicketsDialog from '../../dialogs/get-user-tickets-dialogs';
@@ -31,6 +32,7 @@ import useHandleUser from '../../hooks/use-handle-user';
 import SearchIcon from '@mui/icons-material/Search';
 import DeleteIcon from '@mui/icons-material/Delete';
 import LogoutIcon from '@mui/icons-material/Logout';
+import GroupAddIcon from '@mui/icons-material/GroupAdd';
 import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
 import ConfirmationNumberIcon from '@mui/icons-material/ConfirmationNumber';
 
@@ -46,7 +48,8 @@ export default function CinemaRoomScreen () {
       openGetTicketDialog, 
       openCleanRoomDialog,
       openSignInDialog,
-      openUserTicketsDialog 
+      openUserTicketsDialog,
+      openCreateUserDialog,
     } = useContext(DialogsContext);
     const { isLoadingSeats } = useContext(UiContext);
     const { userData } = useContext(UserContext);
@@ -60,6 +63,13 @@ export default function CinemaRoomScreen () {
           onClick={openUserTicketsDialog}
           disabled={isLoadingSeats}
         >Obtener boletos comprados</Button>}  
+        {<Button 
+          variant='contained' 
+          startIcon={<GroupAddIcon/>}
+          color='success'
+          onClick={openCreateUserDialog}
+          disabled={isLoadingSeats}
+        >Crear Usuario</Button>}  
         {!userData && <Button 
           variant='contained' 
           startIcon={<AssignmentIndIcon/>}
@@ -115,6 +125,7 @@ export default function CinemaRoomScreen () {
               <NoEthereumDialog/>
               <SignInDialog/>
               <GetUserTicketsDialog/>
+              <CreateUserDialog/>
         
             </DialogsContextContainer>
           </SeatsContextContainer>
