@@ -1,11 +1,19 @@
 const ColorRowStyle = {
   ColorElement (color:string) {
-    return {
-      width:'20px',
-      height:'20px',
-      backgroundColor: color,
-      borderRadius:1
-    }
+    if (color === '#ffc107') 
+      return {
+        width:'20px',
+        height:'20px',
+        backgroundColor:color,
+        borderRadius:1
+      }
+    else 
+      return {
+        width:'20px',
+        height:'20px',
+        border:'2px solid white',
+        borderRadius:1
+      }
   }
 }
 

@@ -3,10 +3,19 @@ import { amber } from '@mui/material/colors';
 
 const SeatElementStyle = {
 
-  MainContainer (inUse:string) {
+  MainContainer (idTicket:string) {
+    if (idTicket) 
     return {
       borderRadius:2,
-      border:`2px solid ${inUse ? amber[500] : 'white' }`,
+      backgroundColor:amber[500],
+      width:'50px',
+      height:'50px',
+      cursor:'pointer'
+    }
+    else 
+    return {
+      borderRadius:2,
+      border:'2px solid white',
       width:'50px',
       height:'50px',
       cursor:'pointer'
