@@ -8,7 +8,7 @@ import ColorsRow from '../../components/colors-row';
 
 // Context Containers
 import InformationContainer from './information-container';
-import SeatsContextContainer from '../../contexts/seats-context';
+import SeatsContextContainer, { SeatsContext } from '../../contexts/seats-context';
 import ContractContextContainer from '../../contexts/contract-context';
 import UiContextContainer, { UiContext } from '../../contexts/ui-context';
 import UserContextContainer, { UserContext } from '../../contexts/user-context';
@@ -51,9 +51,11 @@ export default function CinemaRoomScreen () {
       openUserTicketsDialog,
       openCreateUserDialog,
     } = useContext(DialogsContext);
+
     const { isLoadingSeats } = useContext(UiContext);
     const { userData } = useContext(UserContext);
     const { signOut } = useHandleUser();
+    const { isRoomEmpty } = useContext(SeatsContext);
 
     return (
       <Stack sx={FlexStyle.FlexRowGap3} justifyContent='center'>   
@@ -88,7 +90,7 @@ export default function CinemaRoomScreen () {
           color='warning'
           startIcon={<DeleteIcon/>}
           onClick={openCleanRoomDialog}
-          disabled={isLoadingSeats}
+          disabled={isLoadingSeats || isRoomEmpty}
         >Limpiar sala</Button>
         {userData && <Button 
           variant='contained' 

@@ -14,7 +14,7 @@ import { SeatData } from '../../contexts/seats-context/types';
 
 export default function useHandleSeats () {
   
-  const { seats, setSeats, selectedSeat } = useContext(SeatsContext);
+  const { seats, setSeats, selectedSeat, setIsRoomEmpty } = useContext(SeatsContext);
   const { setMessage } = useContext(UiContext);
   const { openMessageDialog } = useContext(DialogsContext);
   const { contractInstance, account } = useContext(ContractContext);
@@ -27,12 +27,15 @@ export default function useHandleSeats () {
       promiseArray.push(seatPromise)
     }
     const response = await Promise.all(promiseArray);
-    const parsedSeats:SeatData[] = response.map(({ row, idTicket, id, column }) => ({ 
-      row:String(row), 
-      column:String(column),
-      id:String(id), 
-      idTicket:String(idTicket), 
-    }));
+    const parsedSeats:SeatData[] = response.map(({ row, idTicket, id, column }) => {
+      if (idTicket) setIsRoomEmpty(false);
+      return { 
+        row:String(row), 
+        column:String(column),
+        id:String(id), 
+        idTicket:String(idTicket), 
+      }
+    });
     setSeats(parsedSeats);
   }
 
@@ -41,6 +44,7 @@ export default function useHandleSeats () {
     setSeats(newSeats);
     setMessage({ title:'Sala limpiada', message:'Sala limpiada con éxito' });
     openMessageDialog();
+    setIsRoomEmpty(true);
   }
 
   function findSeat (id:string) {
@@ -75,6 +79,7 @@ export default function useHandleSeats () {
       updateSeatTicket(id, selectedSeat?.id!!);
       setMessage({ title:'Boleto vendido', message:`El código del ticket es ${id}` });
       openMessageDialog();
+      setIsRoomEmpty(false);
     } catch (err:any) {
       setMessage({ title:'Error vendiendo boleto', message:`Intente de nuevo` });
       openMessageDialog();
@@ -86,7 +91,7 @@ export default function useHandleSeats () {
       await contractInstance.methods.removeTicket(selectedSeat?.id).send({ from: account });
       updateSeatTicket("", selectedSeat?.id!!);
       setMessage({ title:'Boleto removido', message:`Boleto removido con éxito` });
-      openMessageDialog();
+      openMessageDialog();   
     } catch (err:any) {
       setMessage({ title:'Error removiento boleto', message:`Intente de nuevo` });
       openMessageDialog();
@@ -96,6 +101,8 @@ export default function useHandleSeats () {
   function updateSeatTicket (idTicket:string, idSeat:string) {
     const newSeats = seats.map((seat) => ({ ...seat, idTicket:seat.id === idSeat ? idTicket : seat.idTicket }));
     setSeats(newSeats);
+    const filteredSeats = newSeats.filter(({ idTicket }) => idTicket);
+    setIsRoomEmpty(filteredSeats.length === 0);
   } 
 
   async function getUserTickets () {

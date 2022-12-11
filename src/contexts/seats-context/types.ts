@@ -9,5 +9,7 @@ export type SeatsContextPayload = {
   seats:SeatData[];
   setSeats:React.Dispatch<React.SetStateAction<SeatData[]>>;
   selectedSeat: SeatData | null;
-  setSelectedSeat: React.Dispatch<React.SetStateAction<SeatData | null>>
+  setSelectedSeat: React.Dispatch<React.SetStateAction<SeatData | null>>;
+  isRoomEmpty: boolean;
+  setIsRoomEmpty: React.Dispatch<React.SetStateAction<boolean>>;
 }
